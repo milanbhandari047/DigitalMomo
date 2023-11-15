@@ -24,6 +24,9 @@ required:[true,"UserName must be provided"]
     enum: ["customer", "admin"],
     default: "customer",
   },
+  otp:{
+    type:Number
+  }
 });
 
 const User = mongoose.model("User",userSchema)
