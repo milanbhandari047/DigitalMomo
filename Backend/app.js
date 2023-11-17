@@ -7,7 +7,10 @@ const app = express();
 require("dotenv").config();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}))
+
+//telling nodejs to give access to uploads folder
+app.use(express.static("./uploads"))
 
 //ROUTES HERE
 const authRoute = require("./routes/authRoute");
