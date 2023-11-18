@@ -29,7 +29,7 @@ exports.createProduct = async (req, res) => {
     });
   }
   // insert into the Product collection/table
-  await Products.create({
+  await Product.create({
     productName,
     productDescription,
     productPrice,
