@@ -5,10 +5,11 @@ exports.createProduct = async (req, res) => {
   let filePath;
   if (!file) {
     filePath =
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1dQPM88-Vq0f-YM8xILMQdKktXgKBMN6XH9cCBleA&s";
+      "https://t3.ftcdn.net/jpg/00/79/36/04/240_F_79360425_13tH0FGR7nYTNlXWKOWtLmzk7BAikO1b.jpg";
   } else {
     filePath = req.file.filename;
   }
+
   const {
     productName,
     productDescription,
@@ -16,6 +17,7 @@ exports.createProduct = async (req, res) => {
     productStatus,
     productStockQty,
   } = req.body;
+
   if (
     !productName ||
     !productDescription ||
@@ -35,7 +37,7 @@ exports.createProduct = async (req, res) => {
     productPrice,
     productStatus,
     productStockQty,
-    productImage: "http://localhost:3000/" + filePath,
+    productImage:"http://localhosst:4000/" + filePath,
   });
   res.status(200).json({
     message: "Product Created Successfully",
@@ -46,7 +48,7 @@ exports.getProducts = async (req, res) => {
   const products = await Product.find();
   if (products.length == 0) {
     res.status(400).json({
-      message: "No product Found",
+      message: "NO Product Found",
       products: [],
     });
   } else {
@@ -57,11 +59,13 @@ exports.getProducts = async (req, res) => {
   }
 };
 
+
+
 exports.getProduct = async (req, res) => {
   const { id } = req.params;
   if (!id) {
     return res.status(400).json({
-      message: "Please provide id(productId)",
+      message: "Please provide id(productId",
     });
   }
   const product = await Product.find({ _id: id });
@@ -76,4 +80,6 @@ exports.getProduct = async (req, res) => {
       product,
     });
   }
+  
 };
+
