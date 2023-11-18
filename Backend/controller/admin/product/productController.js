@@ -1,6 +1,7 @@
 const Product = require("../../../model/productModel");
 
 exports.createProduct = async (req, res) => {
+  
   const file = req.file;
   let filePath;
   if (!file) {
@@ -17,7 +18,6 @@ exports.createProduct = async (req, res) => {
     productStatus,
     productStockQty,
   } = req.body;
-
   if (
     !productName ||
     !productDescription ||
