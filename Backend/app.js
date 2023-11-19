@@ -17,6 +17,7 @@ app.use(express.static("./uploads"))
 //ROUTES HERE
 const authRoute = require("./routes/authRoute");
 const productRoute = require("./routes/productRoute")
+const adminUsersRoute = require("./routes/adminUsersRoute")
 
 // DATABASE CONNECTION
 connectDatabase(process.env.MONGO_URL);
@@ -30,6 +31,9 @@ app.get("/", (req, res) => {
 
 app.use("/api",authRoute)
 app.use("/api",productRoute)
+app.use("/api",adminUsersRoute)
+
+
 
 // listen server
 const PORT = process.env.PORT;
