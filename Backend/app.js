@@ -1,44 +1,43 @@
 const express = require("express");
 const { connectDatabase } = require("./database/database");
-
-
-
 const app = express();
 
-// Tell NODE TO USE DOTENV
+//ROUTES HERE
+const authRoute = require("./routes/auth/authRoute");
+const productRoute = require("./routes/admin/productRoute");
+const adminUsersRoute = require("./routes/admin/adminUsersRoute");
+const userReviewRoute = require("./routes/user/userReviewRoute");
+const profileRoute = require("./routes/user/profileRoute");
+
+//Routes end here
+
+// TELL NODE TO USE DOTENV
 require("dotenv").config();
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }));
 
-//telling nodejs to give access to uploads folder
-app.use(express.static("./uploads"))
+// telling nodejs to give access to uploads folder
+app.use(express.static("./uploads"));
 
-//ROUTES HERE
-const authRoute = require("./routes/authRoute");
-const productRoute = require("./routes/productRoute")
-const adminUsersRoute = require("./routes/adminUsersRoute")
-const userReviewRoute = require("./routes/userReviewRoute")
-
-// DATABASE CONNECTION
+//DATABASE CONNECTION
 connectDatabase(process.env.MONGO_URL);
 
-//API to check if server is live or not
+//test api to check if server is live or not
 app.get("/", (req, res) => {
   res.status(200).json({
-    message: "Server is live",
+    message: "I am alive",
   });
 });
 
-app.use("/api",authRoute)
-app.use("/api",productRoute)
-app.use("/api",adminUsersRoute)
-app.use("/api",userReviewRoute)
+app.use("/api/auth", authRoute);
+app.use("/api/products", productRoute);
+app.use("/api/admin", adminUsersRoute);
+app.use("/api/reviews", userReviewRoute);
+app.use("/api/profile", profileRoute);
 
-
-
-// listen server
 const PORT = process.env.PORT;
+//listen server
 app.listen(PORT, () => {
-  console.log(`Server has started at PORT ${PORT}`);
+  console.log(`Server has started at PORT ${PORT} `);
 });

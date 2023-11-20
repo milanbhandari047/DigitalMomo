@@ -6,6 +6,8 @@ const userSchema = new Schema(
     userEmail: {
       type: String,
       required: [true, "userEmail must be provided"],
+      unique: true,
+      lowercase: true,
     },
     userPhoneNumber: {
       type: Number,
@@ -19,6 +21,7 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password must be provided"],
       minlength: 8,
+      // select : false
     },
     role: {
       type: String,
