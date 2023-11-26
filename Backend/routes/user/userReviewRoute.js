@@ -15,6 +15,6 @@ router.route("/").get(isAuthenticated, catchAsync(getMyReviews));
 router
   .route("/:id")
   .delete(isAuthenticated, catchAsync(deleteReview))
-  .post(isAuthenticated, permitTo("user"), catchAsync(createReview));
+  .post(isAuthenticated,  catchAsync(createReview));
 
 module.exports = router;

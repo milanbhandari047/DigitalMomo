@@ -103,9 +103,9 @@ exports.editProduct = async (req, res) => {
     });
   }
 
-  const oldProductImage = oldData.productImage; // http://localhost:3000/1698943267271-bunImage.png"
+  const oldProductImage = oldData.productImage; 
   const lengthToCut = process.env.BACKEND_URL.length;
-  const finalFilePathAfterCut = oldProductImage.slice(lengthToCut); // 1698943267271-bunImage.png
+  const finalFilePathAfterCut = oldProductImage.slice(lengthToCut); 
   if (req.file && req.file.filename) {
     // REMOVE FILE FROM UPLOADS FOLDER
     fs.unlink("./uploads/" + finalFilePathAfterCut, (err) => {
@@ -134,7 +134,7 @@ exports.editProduct = async (req, res) => {
     }
   );
   res.status(200).json({
-    messagee: "Product updated successfully",
+    message: "Product updated successfully",
     data: datas,
   });
 };

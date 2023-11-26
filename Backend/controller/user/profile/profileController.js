@@ -25,10 +25,12 @@ exports.updateMyProfile = async (req, res) => {
       new: true,
     }
   );
-  res.status(200).josn({
+  res.status(200).json({
     message: "Profile updated successfully",
     data: updatedData,
   });
+  console.log(userId)
+  console.log(updatedData)
 };
 
 // delete my profile
@@ -52,7 +54,7 @@ exports.updateMyPassword = async (req, res) => {
   }
   if (newPassword !== confirmPassword) {
     return res.status(400).json({
-      message: "newPassword and oldPassword didnt matched",
+      message: "newPassword and oldPassword didn't matched",
     });
   }
   // taking out the hash of the old password

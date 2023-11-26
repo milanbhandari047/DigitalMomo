@@ -36,7 +36,7 @@ router
     isAuthenticated,
     permitTo("admin"),
     upload.single("productImage"),
-    editProduct
+   catchAsync( editProduct)
   );
 
 module.exports = router;
