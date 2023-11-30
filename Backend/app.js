@@ -10,6 +10,7 @@ const userReviewRoute = require("./routes/user/userReviewRoute");
 const profileRoute = require("./routes/user/profileRoute");
 const cartRoute = require("./routes/user/cartRoute");
 const orderRoute = require("./routes/user/orderRoute")
+const adminOrdersRoute = require("./routes/admin/adminOrderRoute")
 
 
 //Routes end here
@@ -40,6 +41,7 @@ app.use("/api/reviews", userReviewRoute);
 app.use("/api/profile", profileRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/orders", orderRoute);
+app.use("/api/admin/orders",adminOrdersRoute)
 
 const PORT = process.env.PORT;
 //listen server

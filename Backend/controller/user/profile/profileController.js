@@ -29,8 +29,6 @@ exports.updateMyProfile = async (req, res) => {
     message: "Profile updated successfully",
     data: updatedData,
   });
-  console.log(userId)
-  console.log(updatedData)
 };
 
 // delete my profile
