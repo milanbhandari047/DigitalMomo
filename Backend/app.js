@@ -1,6 +1,7 @@
 const express = require("express");
 const { connectDatabase } = require("./database/database");
 const app = express();
+const cors = require("cors");
 
 //ROUTES HERE
 const authRoute = require("./routes/auth/authRoute");
@@ -14,6 +15,10 @@ const adminOrdersRoute = require("./routes/admin/adminOrderRoute");
 const paymentRoute = require("./routes/user/paymentRoute");
 
 //Routes end here
+
+app.use(cors({
+  origin:"*"
+}))
 
 // TELL NODE TO USE DOTENV
 require("dotenv").config();
