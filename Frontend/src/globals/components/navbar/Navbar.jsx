@@ -1,4 +1,10 @@
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 export default function Navbar() {
+  const navigate = useNavigate();
+  const items = useSelector((state) => state.cart);
+
   return (
     <>
       <nav className="fixed z-10 w-full bg-white md:absolute md:bg-transparent">
@@ -6,19 +12,19 @@ export default function Navbar() {
           <div className="flex flex-wrap items-center justify-between gap-6 py-3 md:py-4 md:gap-0">
             <div className="flex justify-between w-full px-6 lg:w-max md:px-0">
               <a
-                href="https://tailus.io/blocks/hero-section"
+                onClick={() => navigate("/")}
                 aria-label="logo"
-                className="flex items-center space-x-2"
+                className="flex items-center space-x-2 cursor-pointer"
               >
                 <img
                   src="https://tailus.io/sources/blocks/food-delivery/preview/images/icon.png"
                   className="w-12"
-                  alt="tailus logo"
+                  alt="DigitalMoMo logo"
                   width="144"
                   height="133"
                 />
                 <span className="text-2xl font-bold text-yellow-900">
-                  Tailus <span className="text-yellow-700">Feedus</span>
+                  Digital <span className="text-yellow-700">MoMo</span>
                 </span>
               </a>
 
@@ -62,10 +68,11 @@ export default function Navbar() {
                   <li>
                     <a
                       href="#"
+                      onClick={() => navigate("/cart")}
                       className="block transition md:px-4 hover:text-yellow-700"
                     >
                       <span>
-                        Cart <sup>2</sup>{" "}
+                        Cart <sup>{items.length}</sup>{" "}
                       </span>
                     </a>
                   </li>
