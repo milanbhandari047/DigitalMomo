@@ -1,9 +1,14 @@
 import React from "react";
 import "./Cart.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { remove } from "../../store/cartSlice";
 
 const Cart = () => {
   const products = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  const removeItem = (productId) => {
+    dispatch(remove(productId));
+  };
   return (
     <>
       <div className="h-screen bg-gray-100 pt-20">
@@ -48,6 +53,7 @@ const Cart = () => {
                       <div className="flex items-center space-x-4">
                         <p className="text-sm">259.000 ₭</p>
                         <svg
+                          onClick={() => removeItem(product._id)}
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
