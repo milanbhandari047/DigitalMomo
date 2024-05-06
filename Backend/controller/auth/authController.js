@@ -21,7 +21,7 @@ exports.registerUser = async (req, res) => {
   }
 
   // else
-  await User.create({
+  const userData = await User.create({
     userName: username,
     userPhoneNumber: phoneNumber,
     userEmail: email,
@@ -30,6 +30,7 @@ exports.registerUser = async (req, res) => {
 
   res.status(201).json({
     message: "User registered successfully",
+    data: userData,
   });
 };
 
@@ -130,7 +131,7 @@ exports.verifyOtp = async (req, res) => {
   }
 };
 
-// resetPassword Api 
+// resetPassword Api
 exports.resetPassword = async (req, res) => {
   const { email, newPassword, confirmPassword } = req.body;
   if (!email || !newPassword || !confirmPassword) {
