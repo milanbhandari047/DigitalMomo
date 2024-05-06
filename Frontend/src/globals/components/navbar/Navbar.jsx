@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -86,7 +86,7 @@ export default function Navbar() {
                   className="w-full px-6 py-3 text-center transition rounded-full active:bg-yellow-200 focus:bg-yellow-100 sm:w-max"
                 >
                   <span className="block text-sm font-semibold text-yellow-800">
-                    Sign up
+                    <Link to="/register"> Register</Link>
                   </span>
                 </button>
                 <button
@@ -95,7 +95,7 @@ export default function Navbar() {
                   className="w-full px-6 py-3 text-center transition bg-yellow-300 rounded-full hover:bg-yellow-100 active:bg-yellow-400 focus:bg-yellow-300 sm:w-max"
                 >
                   <span className="block text-sm font-semibold text-yellow-900">
-                    Login
+                    <Link to="/login">Login</Link>
                   </span>
                 </button>
               </div>
