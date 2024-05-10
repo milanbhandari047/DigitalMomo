@@ -3,9 +3,11 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../../../store/cartSlice";
 import { fetchProducts } from "../../../store/productSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Product() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { data: products, status } = useSelector((state) => state.product);
 
@@ -36,6 +38,7 @@ export default function Product() {
               return (
                 <div
                   key={product._id}
+                  onClick={() => navigate(`/productdetails/${product._id}`)}
                   className="mx-auto overflow-hidden duration-300 transform bg-white rounded-lg shadow-md mt-11 w-80 dark:bg-slate-800 hover:scale-105 hover:shadow-lg"
                 >
                   <img
