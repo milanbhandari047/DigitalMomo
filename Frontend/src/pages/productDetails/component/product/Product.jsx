@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductDetails } from "../../../../store/productSlice";
+import { useNavigate } from "react-router-dom";
+import { addToCart } from "../../../../store/cartSlice";
 
 const Product = ({ id: productId }) => {
   const dispatch = useDispatch();
@@ -8,11 +10,26 @@ const Product = ({ id: productId }) => {
     dispatch(fetchProductDetails(productId));
   }, []);
   const { selectedProduct, status } = useSelector((state) => state.product);
-  //   console.log(selectedProduct);
+
+  const { data: user } = useSelector((state) => state.auth);
 
   const product = selectedProduct?.product && selectedProduct?.product[0];
   // console.log(product[0])
   const reviews = selectedProduct.productReviews;
+  const navigate = useNavigate();
+
+  const handleCart = () => {
+    if (
+      user.length == 0 &&
+      (localStorage.getItem("token" == "") ||
+        localStorage.getItem("token") == null ||
+        localStorage.getItem("token") == undefined)
+    ) {
+      return navigate("/login");
+    }
+
+    dispatch(addToCart(productId));
+  };
 
   return (
     <section className="overflow-hidden text-gray-700 bg-white body-font">
@@ -122,11 +139,21 @@ const Product = ({ id: productId }) => {
               <span className="text-2xl font-medium text-gray-900 title-font">
                 NPR {product?.productPrice}
               </span>
-              <button className="flex px-6 py-2 ml-auto text-white bg-red-500 border-0 rounded focus:outline-none hover:bg-red-600">
+              <button
+                onClick={handleCart}
+                className="flex px-6 py-2 ml-auto text-white bg-red-500 border-0 rounded focus:outline-none hover:bg-red-600"
+              >
                 Add To Cart
               </button>
               {/* <button className="inline-flex items-center justify-center w-10 h-10 p-0 ml-4 text-gray-500 bg-gray-200 border-0 rounded-full">
-                <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
+                <svg
+                  fill="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  className="w-5 h-5"
+                  viewBox="0 0 24 24"
+                >
                   <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                 </svg>
               </button> */}

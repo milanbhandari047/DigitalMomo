@@ -18,10 +18,26 @@ exports.addToCart = async (req, res) => {
     });
   }
   const user = await User.findById(userId);
-  user.cart.push(productId);
+  //check if that productId already exist or not ,yedi xa vaney qty matra badaunu paryao na vaya productId insert garna paryao
+  const existingCartItem = user.cart.find((item) =>
+    item.product.equals(productId)
+  );
+
+  if (existingCartItem) {
+    existingCartItem.quantity += 1;
+  } else {
+    user.cart.push({
+      product: productId,
+      quantity: 1,
+    });
+  }
+
   await user.save();
+
+  const updatedUser = await User.findById(userId).populate("cart.product");
   res.status(200).json({
     message: "Product added to cart",
+    data: updatedUser.cart,
   });
 };
 
@@ -29,7 +45,7 @@ exports.addToCart = async (req, res) => {
 exports.getMyCartItems = async (req, res) => {
   const userId = req.user.id;
   const userData = await User.findById(userId).populate({
-    path: "cart",
+    path: "cart.product",
     select: "-productStatus",
   });
 
@@ -62,5 +78,29 @@ exports.deleteItemFromCart = async (req, res) => {
   await user.save();
   res.status(200).json({
     message: "Item removed From Cart",
+  });
+};
+
+// update cardItems
+exports.updateCartItems = async (req, res) => {
+  const userId = req.user.id;
+  const { productId } = req.params;
+  const { quantity } = req.body;
+
+  const user = await User.findById(userId);
+  console.log(user);
+  const cartItem = user.cart.find((item) => item.product.equals(productId));
+
+  if (!cartItem) {
+    return res.status(404).json({
+      message: "No product with that productId",
+    });
+  }
+  cartItem.quantity = quantity;
+  await user.save();
+
+  res.status(200).json({
+    message: "Items Updated Successfully",
+    data: user.cart,
   });
 };
