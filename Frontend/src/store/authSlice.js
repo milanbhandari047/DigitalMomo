@@ -57,7 +57,9 @@ export function loginUser(data) {
       dispatch(setToken(response.data.data));
 
       dispatch(setStatus(STATUSES.SUCCESS));
-      localStorage.setItem("token", response.data.token);
+      if (response.status === 200 && response.data.token) {
+        localStorage.setItem("token", response.data.token);
+      }
     } catch (error) {
       console.log(error);
       dispatch(setStatus(STATUSES.ERROR));

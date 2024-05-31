@@ -24,6 +24,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(loginUser(userData));
+
     if (status === STATUSES.SUCCESS) {
       return navigate("/");
     }

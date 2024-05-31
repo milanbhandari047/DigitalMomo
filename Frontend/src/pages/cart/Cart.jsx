@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./Cart.css";
-import { updateCartItem } from "../../store/cartSlice";
+import { deleteCartItem, updateCartItem } from "../../store/cartSlice";
+import { useNavigate } from "react-router-dom";
 const Cart = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { items: products } = useSelector((state) => state.cart);
 
@@ -16,6 +18,9 @@ const Cart = () => {
 
   const handleQuantityChange = (productId, newQuantity) => {
     dispatch(updateCartItem(productId, newQuantity));
+  };
+  const handleDeleteItem = (productId) => {
+    dispatch(deleteCartItem(productId));
   };
 
   return (
@@ -82,7 +87,10 @@ const Cart = () => {
                         +{" "}
                       </span>
                     </div>
-                    <div className="flex items-center space-x-4">
+                    <div
+                      className="flex items-center space-x-4"
+                      onClick={() => handleDeleteItem(product.product._id)}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -118,7 +126,10 @@ const Cart = () => {
               <p className="mb-1 text-lg font-bold">Rs. {totalAmountOfCart}</p>
             </div>
           </div>
-          <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">
+          <button
+            onClick={() => navigate("/checkout")}
+            className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+          >
             Check out
           </button>
         </div>

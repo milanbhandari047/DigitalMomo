@@ -73,7 +73,7 @@ exports.deleteItemFromCart = async (req, res) => {
   //   user.cart =   user.cart.filter(pId=>pId != productIdd) // [1,2,3] ==> 2 ==>filter ==> [1,3] ==> user.cart = [1,3]
 
   //     })
-  user.cart = user.cart.filter((pId) => pId != productId); // [1,2,3] ==> 2 ==>filter ==> [1,3] ==> user.cart = [1,3]
+  user.cart = user.cart.filter((item) => item.product != productId); // [1,2,3] ==> 2 ==>filter ==> [1,3] ==> user.cart = [1,3]
 
   await user.save();
   res.status(200).json({

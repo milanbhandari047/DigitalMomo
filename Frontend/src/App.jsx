@@ -12,6 +12,8 @@ import Home from "./pages/home/Home";
 import Login from "./pages/auth/login/Login";
 import Register from "./pages/auth/register/Register";
 import ProductDetails from "./pages/productDetails/ProductDetails";
+import CheckOut from "./pages/checkout/CheckOut";
+import Khalti from "./pages/khalti/khalti";
 
 const App = () => {
   return (
@@ -30,6 +32,8 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/productdetails/:id" element={<ProductDetails />} />
+            <Route path="/checkout" element={<CheckOut />} />
+            <Route path="/khalti" element={<Khalti />} />
           </Routes>
           <Footer />
         </BrowserRouter>
