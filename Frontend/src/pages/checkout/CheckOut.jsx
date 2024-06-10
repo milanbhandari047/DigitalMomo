@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { STATUSES } from "../../globals/misc/statuses";
 import { useNavigate } from "react-router-dom";
 import { createOrder } from "../../store/checkoutSlice";
+import { APIAuthenticated } from "../../http";
 
 const CheckOut = () => {
   const { items: products } = useSelector((state) => state.cart);
@@ -36,9 +37,9 @@ const CheckOut = () => {
       return alert("Order placed successfully");
     }
     if (status === STATUSES.SUCCESS && paymentMethod === "khalti") {
-      const { totalAmount, _id } = data[data.length - 1];
+      const { totalAmount, _id: orderId } = data[data.length - 1];
 
-      return navigate(`/khalti?orderid=${_id}&totalamount=${totalAmount}`);
+      handleKhalti(orderId, totalAmount);
     }
   };
 
@@ -48,6 +49,21 @@ const CheckOut = () => {
 
   const handlePaymentChange = (e) => {
     setPaymentMethod(e.target.value);
+  };
+
+  const handleKhalti = async (orderId, totalAmount) => {
+    try {
+      const response = await APIAuthenticated.post("/payment", {
+        orderId,
+        amount: totalAmount,
+      });
+
+      if (response.status === 200) {
+        window.location.href = response.data.paymentUrl;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -267,9 +283,18 @@ const CheckOut = () => {
                 </p>
               </div>
             </div>
-            <button className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">
-              Place Order
-            </button>
+            {paymentMethod === "COD" ? (
+              <button
+                className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
+                type="submit"
+              >
+                Place Order
+              </button>
+            ) : (
+              <button className="mt-4 mb-8 w-full rounded-md bg-purple-900 px-6 py-3 font-medium text-white">
+                Pay With Khalti
+              </button>
+            )}
           </div>
         </form>
       </div>

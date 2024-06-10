@@ -1,4 +1,5 @@
 const Order = require("../../../model/orderModel");
+const User = require("../../../model/userModel");
 
 exports.createOrder = async (req, res) => {
   const userId = req.user.id;
@@ -17,7 +18,7 @@ exports.createOrder = async (req, res) => {
     });
   }
   // insert into orders
-  await Order.create({
+  const createOrder = await Order.create({
     user: userId,
     shippingAddress,
     totalAmount,
@@ -25,6 +26,11 @@ exports.createOrder = async (req, res) => {
     paymentDetails,
     phoneNumber,
   });
+
+  const user = await User.findById(userId);
+  user.cart = [];
+  await user.save();
+
   res.status(200).json({
     message: "Order created successfully",
     data: createOrder,

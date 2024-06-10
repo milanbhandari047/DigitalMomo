@@ -68,32 +68,27 @@ export default function Navbar() {
               <div className="text-gray-600 lg:pr-4">
                 <ul className="space-y-6 text-sm font-medium tracking-wide md:flex md:space-y-0">
                   <li>
-                    <a
-                      href="#"
+                    <Link
+                      to="/profile"
                       className="block transition md:px-4 hover:text-yellow-700"
                     >
-                      <span>Ive a restaurant</span>
-                    </a>
+                      <span>Profile</span>
+                    </Link>
                   </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block transition md:px-4 hover:text-yellow-700"
-                    >
-                      <span>Wishlist</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      onClick={() => navigate("/cart")}
-                      className="block transition md:px-4 hover:text-yellow-700"
-                    >
-                      <span>
-                        Cart <sup>{items.length}</sup>{" "}
-                      </span>
-                    </a>
-                  </li>
+
+                  {items.length !== 0 && (
+                    <li>
+                      <a
+                        href="#"
+                        onClick={() => navigate("/cart")}
+                        className="block transition md:px-4 hover:text-yellow-700"
+                      >
+                        <span>
+                          Cart <sup>{items.length}</sup>{" "}
+                        </span>
+                      </a>
+                    </li>
+                  )}
                 </ul>
               </div>
 
