@@ -16,9 +16,11 @@ const paymentRoute = require("./routes/user/paymentRoute");
 
 //Routes end here
 
-app.use(cors({
-  origin:"*"
-}))
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 // TELL NODE TO USE DOTENV
 require("dotenv").config();
