@@ -16,8 +16,8 @@ import KhaltiSuccess from "./pages/success/KhaltiSuccess";
 import UserProfile from "./pages/profile/UserProfile";
 import MyOrders from "./pages/myOrders/MyOrders";
 import OrderDetails from "./pages/orderDetails/OrderDetails";
-// import { ProctectedRouteForVendor, ProtectedRoute } from "./pages/ProtectRoute";
-// import AdminDashboard from "./pages/admin/dashboard/AdminDashboard";
+import { ProctectedRouteForVendor, ProtectedRoute } from "./pages/ProtectRoute";
+import AdminDashboard from "./pages/admin/dashboard/AdminDashboard";
 
 const App = () => {
   return (
