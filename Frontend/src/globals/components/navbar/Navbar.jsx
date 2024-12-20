@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { logOut } from "../../../store/authSlice";
+import { fetchProfile, logOut } from "../../../store/authSlice";
 import { fetchCartItems } from "../../../store/cartSlice";
 import { useEffect } from "react";
 
@@ -20,6 +20,7 @@ export default function Navbar() {
 
   useEffect(() => {
     dispatch(fetchCartItems());
+    dispatch(fetchProfile());
   }, [dispatch]);
 
   return (

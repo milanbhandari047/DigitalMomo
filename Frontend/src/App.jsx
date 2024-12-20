@@ -6,7 +6,6 @@ import Navbar from "./globals/components/navbar/Navbar";
 import Footer from "./globals/components/footer/Footer";
 import { Provider } from "react-redux";
 import store from "./store/store";
-// import router from "./router";
 import Cart from "./pages/cart/Cart";
 import Home from "./pages/home/Home";
 import Login from "./pages/auth/login/Login";
@@ -17,6 +16,8 @@ import KhaltiSuccess from "./pages/success/KhaltiSuccess";
 import UserProfile from "./pages/profile/UserProfile";
 import MyOrders from "./pages/myOrders/MyOrders";
 import OrderDetails from "./pages/orderDetails/OrderDetails";
+// import { ProctectedRouteForVendor, ProtectedRoute } from "./pages/ProtectRoute";
+// import AdminDashboard from "./pages/admin/dashboard/AdminDashboard";
 
 const App = () => {
   return (
@@ -35,6 +36,22 @@ const App = () => {
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/myorders" element={<MyOrders />} />
             <Route path="/myorders/:id" element={<OrderDetails />} />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            {/* <Route
+              path="/vendor"
+              element={
+                <ProctectedRouteForVendor>
+                  <VendorDashboard />
+                </ProctectedRouteForVendor>
+              }
+            /> */}
           </Routes>
           <Footer />
         </BrowserRouter>
