@@ -1,10 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { fetchOrder } from "store/orderSlice";
 
 const Orders = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { orders } = useSelector((state) => state.orders);
   const [selectedItem, setSelectedItem] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [date, setDate] = useState("");
 
+  useEffect(() => {
+    dispatch(fetchOrder());
+  }, []);
+
+  const filteredOrders = orders
+    ?.filter(
+      (order) => selectedItem === "all" || order.orderStatus === selectedItem
+    )
+
+    .filter(
+      (order) =>
+        order._id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        order.paymentDetails.method
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+    )
+    .filter(
+      (order) =>
+        date === "" ||
+        new Date(order.createdAt).toLocaleDateString() ===
+          new Date(date).toLocaleDateString()
+    );
   return (
     <div className="bg-gray-200 pt-20 font-sans antialiased">
       <div className="container mx-auto px-4 sm:px-8">
@@ -87,46 +115,55 @@ const Orders = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                      <p
-                        className="whitespace-no-wrap text-blue-900"
-                        style={{
-                          textDecoration: "underline",
-                          cursor: "pointer",
-                        }}
-                      >
-                        Id
-                      </p>
-                    </td>
-                    <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                      <p className="whitespace-no-wrap text-gray-900">
-                        oderAmount
-                      </p>
-                    </td>
-                    <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                      <p className="whitespace-no-wrap text-gray-900">
-                        PaymentGrade
-                      </p>
-                    </td>
+                  {filteredOrders &&
+                    filteredOrders.length > 0 &&
+                    filteredOrders.map((order) => {
+                      return (
+                        <tr key={order._id}>
+                          <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p
+                              onClick={() => navigate(`/myorders/${order._id}`)}
+                              className="whitespace-no-wrap text-blue-900"
+                              style={{
+                                textDecoration: "underline",
+                                cursor: "pointer",
+                              }}
+                            >
+                              {order._id}
+                            </p>
+                          </td>
+                          <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p className="whitespace-no-wrap text-gray-900">
+                              {order.totalAmount}
+                            </p>
+                          </td>
+                          <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p className="whitespace-no-wrap text-gray-900">
+                              {order.paymentDetails.status}(
+                              {order.paymentDetails.method})
+                            </p>
+                          </td>
 
-                    <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                      <span className="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
-                        <span
-                          aria-hidden
-                          className="absolute inset-0 rounded-full bg-green-200 opacity-50"
-                        ></span>
-                        <span className="relative">OrderStatus</span>
-                      </span>
-                    </td>
+                          <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <span className="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
+                              <span
+                                aria-hidden
+                                className="absolute inset-0 rounded-full bg-green-200 opacity-50"
+                              ></span>
+                              <span className="relative">
+                                {order.orderStatus}
+                              </span>
+                            </span>
+                          </td>
 
-                    <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                      <p className="whitespace-no-wrap text-gray-900">
-                        {" "}
-                        {new Date().toLocaleDateString()}
-                      </p>
-                    </td>
-                  </tr>
+                          <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p className="whitespace-no-wrap text-gray-900">
+                              {new Date(order.createdAt).toLocaleDateString()}
+                            </p>
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
               <div className="xs:flex-row xs:justify-between flex flex-col items-center border-t bg-white px-5 py-5          ">
