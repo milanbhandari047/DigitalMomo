@@ -11,10 +11,10 @@ const catchAsync = require("../../services/catchAsync");
 const router = require("express").Router();
 
 router
-  .route("/")
+  .route("/orders")
   .get(isAuthenticated, permitTo("admin"), catchAsync(getAllOrders));
 router
-  .route("/:id")
+  .route("/orders/:id")
   .get(isAuthenticated, permitTo("admin"), catchAsync(getSingleOrder))
   .patch(isAuthenticated, permitTo("admin"), catchAsync(updateOrderStatus))
   .delete(isAuthenticated, permitTo("admin"), catchAsync(deleteOrder));
