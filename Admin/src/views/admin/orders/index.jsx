@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { deleteOrders } from "store/orderSlice";
 import { fetchOrder } from "store/orderSlice";
 
 const Orders = () => {
@@ -14,6 +15,10 @@ const Orders = () => {
   useEffect(() => {
     dispatch(fetchOrder());
   }, []);
+
+  const deleteOrder = (orderId) => {
+    dispatch(deleteOrders(orderId));
+  };
 
   const filteredOrders = orders
     ?.filter(
@@ -33,6 +38,7 @@ const Orders = () => {
         new Date(order.createdAt).toLocaleDateString() ===
           new Date(date).toLocaleDateString()
     );
+
   return (
     <div className="bg-gray-200 pt-20 font-sans antialiased">
       <div className="container mx-auto px-4 sm:px-8">
@@ -112,6 +118,9 @@ const Orders = () => {
                     <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
                       Order Date
                     </th>
+                    <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -122,7 +131,9 @@ const Orders = () => {
                         <tr key={order._id}>
                           <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
                             <p
-                              onClick={() => navigate(`/myorders/${order._id}`)}
+                              onClick={() =>
+                                navigate(`/admin/orders/${order._id}`)
+                              }
                               className="whitespace-no-wrap text-blue-900"
                               style={{
                                 textDecoration: "underline",
@@ -160,6 +171,15 @@ const Orders = () => {
                             <p className="whitespace-no-wrap text-gray-900">
                               {new Date(order.createdAt).toLocaleDateString()}
                             </p>
+                          </td>
+
+                          <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <button
+                              onClick={() => deleteOrder(order._id)}
+                              className="whitespace-no-wrap rounded-full bg-red-500 p-2 text-gray-900"
+                            >
+                              Delete
+                            </button>
                           </td>
                         </tr>
                       );

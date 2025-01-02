@@ -13,6 +13,7 @@ import {
   MdBarChart,
   MdPerson,
 } from "react-icons/md";
+import SingleOrder from "views/admin/orders/SingleOrder";
 
 const routes = [
   {
@@ -44,6 +45,14 @@ const routes = [
     path: "users",
     icon: <MdPerson className="h-6 w-6" />,
     component: <Users />,
+  },
+  {
+    name: "SingleOrder",
+    layout: "/admin",
+    path: "orders/:id",
+    icon: <MdOutlineShoppingCart className="h-6 w-6" />,
+    component: <SingleOrder />,
+    secondary: true,
   },
 ];
 export default routes;
