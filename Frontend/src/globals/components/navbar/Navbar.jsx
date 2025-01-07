@@ -36,9 +36,9 @@ export default function Navbar() {
                 className="flex items-center space-x-2"
               >
                 <img
-                  src="https://tailus.io/sources/blocks/food-delivery/preview/images/icon.png"
+                  src="/logo.jpeg"
                   className="w-12"
-                  alt="tailus logo"
+                  alt=" logo"
                   width="144"
                   height="133"
                 />

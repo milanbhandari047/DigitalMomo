@@ -15,9 +15,9 @@ const Hero = () => {
                     name="domain"
                     id="domain"
                   >
-                    <option value="design">FastFood</option>
-                    <option value="development">Restaurant</option>
-                    <option value="marketing">Marketing</option>
+                    <option value="design">Chicken MoMo</option>
+                    <option value="development">Veg MoMo</option>
+                    <option value="marketing">Jhol Momo</option>
                   </select>
                   <input
                     placeholder="Your favorite food"
@@ -53,12 +53,13 @@ const Hero = () => {
             </div>
             <div className="ml-auto -mb-24 lg:-mb-100 lg:w-6/12">
               <img
-                src="https://tailus.io/sources/blocks/food-delivery/preview/images/food.webp"
+                src="/momo.jpg"
                 className="relative"
-                alt="food illustration"
+                alt="home image"
                 loading="lazy"
                 width="4500"
                 height="4500"
+                border-radius="20px"
               />
             </div>
           </div>
