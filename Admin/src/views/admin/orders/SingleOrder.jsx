@@ -3,6 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { updatePaymentStatus } from "store/orderSlice";
 import { updateOrderStatus } from "store/orderSlice";
 
 const SingleOrder = () => {
@@ -18,6 +19,15 @@ const SingleOrder = () => {
     dispatch(updateOrderStatus(id, e.target.value));
   };
 
+  const [paymentStatus, setPaymentStatus] = useState(
+    filterOrder?.paymentDetails.status
+  );
+
+  const handlePaymentStatus = (e) => {
+    setPaymentStatus(e.target.value);
+    dispatch(updatePaymentStatus(id, e.target.value));
+  };
+
   const deleteOrder = async () => {
     try {
       const response = await APIAuthenticated.delete("/admin/orders/" + id);
@@ -25,7 +35,7 @@ const SingleOrder = () => {
         navigate("/admin/orders");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return (
@@ -179,29 +189,57 @@ const SingleOrder = () => {
                 </div>
                 <div className="flex w-full items-center justify-center md:items-start md:justify-start">
                   <form class="mx-auto max-w-sm">
-                    <label
-                      for="status"
-                      class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Select Order Status
-                    </label>
-                    <select
-                      id="status"
-                      onChange={handleOrderStatus}
-                      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                    >
-                      <option value={filterOrder?.orderStatus}>
-                        {filterOrder?.orderStatus}
-                      </option>
-                      <option value="delivered">Delivered</option>
-                      <option value="cancelled">Cancelled</option>
-                      <option value="ontheway">ontheway</option>
-                      <option value="preparation">Preparation</option>
-                    </select>
+                    <div className="flex  flex-col p-5 ">
+                      <div>
+                        <label
+                          for="status"
+                          class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                        >
+                          Select Order Status
+                        </label>
+                        <select
+                          id="status"
+                          onChange={handleOrderStatus}
+                          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        >
+                          {/* <option value={filterOrder?.orderStatus}>
+                            {filterOrder?.orderStatus}
+                          </option> */}
+                          <option value="pending">Pending</option>
+
+                          <option value="delivered">Delivered</option>
+                          <option value="cancelled">Cancelled</option>
+                          <option value="ontheway">ontheway</option>
+                          <option value="preparation">Preparation</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label
+                          for="status"
+                          class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                        >
+                          Select Payment Status
+                        </label>
+                        <select
+                          id="status"
+                          onChange={handlePaymentStatus}
+                          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                        >
+                          {/* <option value={filterOrder?.paymentDetails.status}>
+                            {filterOrder?.paymentDetails.status}
+                          </option> */}
+                          <option value="pending">pending</option>
+
+                          <option value="paid">paid</option>
+                          <option value="unpaid">unpaid</option>
+                        </select>
+                      </div>
+                    </div>
                   </form>
                 </div>
                 {filterOrder?.orderStatus !== "cancelled" && (
-                  <div className="flex w-full items-center justify-center md:items-start md:justify-start">
+                  <div className="flex w-full items-center justify-center  md:items-start md:justify-start">
                     <button
                       className="mt- dark:bg-transparent w-96 border border-gray-800 py-3 text-base font-medium leading-4 text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2 dark:border-white dark:text-white dark:hover:bg-gray-900  md:mt-0 2xl:w-full"
                       style={{
