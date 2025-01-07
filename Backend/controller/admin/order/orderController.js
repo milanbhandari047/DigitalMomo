@@ -73,6 +73,42 @@ exports.updateOrderStatus = async (req, res) => {
   });
 };
 
+exports.updatePaymentStatus = async (req, res) => {
+  const { id } = req.params;
+  const { paymentStatus } = req.body;
+
+  if (
+    !paymentStatus ||
+    !["pending", "unpaid", "paid"].includes(paymentStatus.toLowerCase())
+  ) {
+    return res.status(400).json({
+      message: "paymentStatus is invalid or should be provided",
+    });
+  }
+  const order = await Order.findById(id);
+  if (!order) {
+    return res.status(404).json({
+      message: "No order found with that id",
+    });
+  }
+  const updatedOrder = await Order.findByIdAndUpdate(
+    id,
+    {
+      "paymentDetails.status": paymentStatus,
+    },
+    { new: true }
+  )
+    .populate({
+      path: "items.product",
+      model: "Product",
+    })
+    .populate("user");
+
+  res.status(200).json({
+    message: "Payment status updated Successfully",
+    data: updatedOrder,
+  });
+};
 exports.deleteOrder = async (req, res) => {
   const { id } = req.params;
   const order = await Order.findById(id);
