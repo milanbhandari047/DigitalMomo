@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { deleteProducts } from "store/productsSlice";
 import { fetchProduct } from "store/productsSlice";
 
 const Products = () => {
@@ -10,10 +11,13 @@ const Products = () => {
   const [selectedItem, setSelectedItem] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [date, setDate] = useState("");
-  console.log(products);
   useEffect(() => {
     dispatch(fetchProduct());
   }, []);
+
+  const deleteProduct = (productId) => {
+    dispatch(deleteProducts(productId));
+  };
 
   const filteredProducts = products
     ?.filter(
@@ -109,6 +113,9 @@ const Products = () => {
                     <th className="bproduct-b-2 bproduct-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
                       Created At
                     </th>
+                    <th className="bproduct-b-2 bproduct-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -152,6 +159,14 @@ const Products = () => {
                             <p className="whitespace-no-wrap text-gray-900">
                               {new Date(product.createdAt).toLocaleDateString()}
                             </p>
+                          </td>
+                          <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <button
+                              onClick={() => deleteProduct(product._id)}
+                              className="whitespace-no-wrap rounded-full bg-red-500 p-2 text-gray-900"
+                            >
+                              Delete
+                            </button>
                           </td>
                         </tr>
                       );

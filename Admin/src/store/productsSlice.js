@@ -16,10 +16,17 @@ const productSlice = createSlice({
     setProducts(state, action) {
       state.products = action.payload;
     },
+    deleteProductById(state, action) {
+      const index = state.products.findIndex(
+        (product) => product._id === action.payload.productId
+      );
+      state.products.splice(index, 1);
+    },
   },
 });
 
-export const { setProducts, setStatus } = productSlice.actions;
+export const { setProducts, setStatus, deleteProductById } =
+  productSlice.actions;
 
 export default productSlice.reducer;
 
@@ -28,7 +35,20 @@ export function fetchProduct() {
     dispatch(setStatus(STATUSES.LOADING));
     try {
       const response = await APIAuthenticated.get("products");
-      dispatch(setProducts(response.data.data));
+      dispatch(setProducts(response.data.data.reverse()));
+      dispatch(setStatus(STATUSES.SUCCESS));
+    } catch (error) {
+      dispatch(setStatus(STATUSES.ERROR));
+    }
+  };
+}
+
+export function deleteProducts(productId) {
+  return async function deleteProductsThunk(dispatch) {
+    dispatch(setStatus(STATUSES.LOADING));
+    try {
+      const response = await APIAuthenticated.delete(`/products/${productId}`);
+      dispatch(deleteProductById({ productId }));
       dispatch(setStatus(STATUSES.SUCCESS));
     } catch (error) {
       dispatch(setStatus(STATUSES.ERROR));

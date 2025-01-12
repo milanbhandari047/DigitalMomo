@@ -58,7 +58,7 @@ export function fetchOrder() {
     dispatch(setStatus(STATUSES.LOADING));
     try {
       const response = await APIAuthenticated.get("admin/orders");
-      dispatch(setOrders(response.data.data));
+      dispatch(setOrders(response.data.data.reverse()));
       dispatch(setStatus(STATUSES.SUCCESS));
     } catch (error) {
       dispatch(setStatus(STATUSES.ERROR));

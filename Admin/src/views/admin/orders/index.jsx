@@ -30,7 +30,8 @@ const Orders = () => {
         order._id.toLowerCase().includes(searchTerm.toLowerCase()) ||
         order.paymentDetails.method
           .toLowerCase()
-          .includes(searchTerm.toLowerCase())
+          .includes(searchTerm.toLowerCase()) ||
+        order?.user?.userName.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .filter(
       (order) =>
@@ -38,7 +39,6 @@ const Orders = () => {
         new Date(order.createdAt).toLocaleDateString() ===
           new Date(date).toLocaleDateString()
     );
-
   return (
     <div className="bg-gray-200 pt-20 font-sans antialiased">
       <div className="container mx-auto px-4 sm:px-8">
@@ -107,6 +107,10 @@ const Orders = () => {
                     </th>
 
                     <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                      UserName
+                    </th>
+
+                    <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
                       Total Amt
                     </th>
                     <th className="border-b-2 border-gray-200 bg-gray-100 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
@@ -143,6 +147,13 @@ const Orders = () => {
                               {order._id}
                             </p>
                           </td>
+
+                          <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p className="whitespace-no-wrap text-gray-900">
+                              {order?.user?.userName}
+                            </p>
+                          </td>
+
                           <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
                             <p className="whitespace-no-wrap text-gray-900">
                               {order.totalAmount}
