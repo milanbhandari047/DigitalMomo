@@ -47,7 +47,7 @@ export function fetchOrder() {
     try {
       const response = await APIAuthenticated.get("orders/");
       console.log(response.data.data);
-      dispatch(setOrders(response.data.data));
+      dispatch(setOrders(response.data.data.reverse()));
       dispatch(setStatus(STATUSES.SUCCESS));
     } catch (error) {
       console.log(error);
