@@ -1,4 +1,5 @@
 const Order = require("../../../model/orderModel");
+const Product = require("../../../model/productModel");
 
 exports.getAllOrders = async (req, res) => {
   const orders = await Order.find()
@@ -66,6 +67,29 @@ exports.updateOrderStatus = async (req, res) => {
       model: "Product",
     })
     .populate("user");
+
+  let necessaryData;
+  if (orderStatus === "delivered") {
+    necessaryData = updatedOrder.items.map((item) => {
+      return {
+        quantity: item.quantity,
+        productId: item.product._id,
+        productStockQty: item.product.productStockQty,
+      };
+    });
+
+    for (var i = 0; i < necessaryData.length; i++) {
+      await Product.findByIdAndUpdate(necessaryData[i].productId, {
+        productStockQty:
+          necessaryData[i].productStockQty - necessaryData[i].quantity,
+      });
+      if (product.productStockQty < 0) {
+        return res.status(400).json({
+          message: `Not enough stock for product with id: ${necessaryData[i].productId}`,
+        });
+      }
+    }
+  }
 
   res.status(200).json({
     message: "Order status updated Successfully",
