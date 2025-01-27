@@ -64,7 +64,7 @@ const SingleOrder = () => {
                         <img
                           className="hidden w-full md:block"
                           src={item?.product?.productImage}
-                          alt={item?.product.productName}
+                          alt={item?.product?.productName}
                         />
                         <img
                           className="w-full md:hidden"
